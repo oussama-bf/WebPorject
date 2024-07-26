@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Réservation d'Hôtel</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>Réserver une Chambre d'Hôtel</h1>
+    <form id="reservationForm">
+        <label for="name">Nom:</label>
+        <input type="text" id="name" name="name" required><br>
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required><br>
+
+        <label for="hotel">Hôtel:</label>
+        <input type="text" id="hotel" name="hotel" required><br>
+
+        <label for="checkin">Date d'Arrivée:</label>
+        <input type="date" id="checkin" name="checkin" required><br>
+
+        <label for="checkout">Date de Départ:</label>
+        <input type="date" id="checkout" name="checkout" required><br>
+
+        <button type="submit">Réserver</button>
+    </form>
+
+    <a href="view_reservations.html">Consulter les Réservations</a>
+
+    <script>
+        document.getElementById('reservationForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            var formData = new FormData(this);
+            
+            fetch('reservation.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.text())
+            .then(data => {
+                alert(data);
+            })
+            .catch(error => {
+                console.error('Erreur:', error);
+            });
+        });
+    </script>
+</body>
+</html>
