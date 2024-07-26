@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consulter les Réservations</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>Liste des Réservations</h1>
+    <table id="reservationsTable">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nom</th>
+                <th>Email</th>
+                <th>Hôtel</th>
+                <th>Date d'Arrivée</th>
+                <th>Date de Départ</th>
+                <th>Date d'Enregistrement</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Les réservations seront insérées ici par JavaScript -->
+        </tbody>
+    </table>
+
+    <script>
+        // Fonction pour récupérer et afficher les réservations
+        function fetchReservations() {
+            fetch('api_reservations.php')
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Fetched data:', data); // Log the fetched data
+
+                    const tableBody = document.getElementById('reservationsTable').getElementsByTagName('tbody')[0];
+                    tableBody.innerHTML = ''; // Effacer le contenu actuel du tableau
+
+                    data.forEach(reservation => {
+                        let row = tableBody.insertRow();
+
+                        let cellId = row.insertCell(0);
+                        let cellName = row.insertCell(1);
+                        let cellEmail = row.insertCell(2);
+                        let cellHotel = row.insertCell(3);
+                        let cellCheckin = row.insertCell(4);
+                        let cellCheckout = row.insertCell(5);
+                        let cellRegDate = row.insertCell(6);
+
+                        cellId.innerHTML = reservation.id;
+                        cellName.innerHTML = reservation.name;
+                        cellEmail.innerHTML = reservation.email;
+                        cellHotel.innerHTML = reservation.hotel;
+                        cellCheckin.innerHTML = reservation.checkin;
+                        cellCheckout.innerHTML = reservation.checkout;
+                        cellRegDate.innerHTML = reservation.reg_date;
+
+                        // Debug: Vérifier les valeurs dans la console
+                        console.log('ID:', reservation.id);
+                        console.log('Date d\'enregistrement:', reservation.reg_date);
+                    });
+                })
+                .catch(error => {
+                    console.error('Erreur:', error);
+                });
+        }
+
+        // Appeler la fonction pour récupérer les réservations dès le chargement de la page
+        window.onload = fetchReservations;
+    </script>
+</body>
+</html>
